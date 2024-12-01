@@ -1,12 +1,29 @@
+#spring:
+#  jpa:
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        format_sql: true
+#    defer-datasource-initialization: true
+#  datasource:
+#    url: jdbc:h2:mem:testdb
+#  h2:
+#    console:
+#      enabled: true
+
 spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://yeondeung.c3usias0k89v.ap-northeast-2.rds.amazonaws.com:3306/yeondeung?useSSL=false&useUnicode=true&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    username: root
+    password: taehoon4086
   jpa:
     show-sql: true
+    hibernate:
+      ddl-auto: none # create로 바꾸면 처음에 자동으로 테이블 생성
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
         format_sql: true
     defer-datasource-initialization: true
-  datasource:
-    url: jdbc:h2:mem:testdb
-  h2:
-    console:
-      enabled: true
