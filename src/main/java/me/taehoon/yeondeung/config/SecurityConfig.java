@@ -1,5 +1,6 @@
 package me.taehoon.yeondeung.config;
 
+import me.taehoon.yeondeung.jwt.JWTFilter;
 import me.taehoon.yeondeung.jwt.JWTUtil;
 import me.taehoon.yeondeung.jwt.LoginFilter;
 import org.springframework.context.annotation.Bean;
@@ -60,6 +61,9 @@ public class SecurityConfig {
                         .requestMatchers("/login", "/", "join").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .anyRequest().authenticated());
+
+        http
+                .addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
 
         // 로그인 필터 등록
         http
