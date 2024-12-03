@@ -91,6 +91,8 @@ public class SecurityConfig {
                         .requestMatchers("/login", "/", "join").permitAll()
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers("/reissue").permitAll()
+                        .requestMatchers("/check").permitAll()
+                        .requestMatchers("/signup").permitAll()
                         .anyRequest().authenticated());
 
         http
