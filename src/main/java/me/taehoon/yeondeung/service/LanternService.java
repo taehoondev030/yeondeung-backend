@@ -2,11 +2,13 @@ package me.taehoon.yeondeung.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import me.taehoon.yeondeung.domain.UserEntity;
 import me.taehoon.yeondeung.domain.Wish;
 import me.taehoon.yeondeung.dto.AddWishRequest;
 import me.taehoon.yeondeung.dto.UpdateWishRequest;
 import me.taehoon.yeondeung.jwt.JWTUtil;
 import me.taehoon.yeondeung.repository.LanternRepository;
+import me.taehoon.yeondeung.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.List;
 public class LanternService {
 
     private final LanternRepository lanternRepository;
+    private final UserRepository userRepository;
     private final JWTUtil jwtUtil;
 
     // 유저별 소망 조회
@@ -27,8 +30,11 @@ public class LanternService {
     }
 
     // 소망 추가 메서드
-    public Wish save(AddWishRequest request) {
-        return lanternRepository.save(request.toEntity());
+    public Wish save(AddWishRequest request, String userName) {
+        UserEntity user = userRepository.findByUsername(userName);
+        Wish wish = request.toEntity(user);
+
+        return lanternRepository.save(wish);
     }
 
     // 소망 조회 메서드

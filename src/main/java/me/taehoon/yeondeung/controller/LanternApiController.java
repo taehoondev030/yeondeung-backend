@@ -8,6 +8,7 @@ import me.taehoon.yeondeung.dto.WishResponse;
 import me.taehoon.yeondeung.service.LanternService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,18 +31,20 @@ public class LanternApiController {
         return ResponseEntity.ok(wishes);
     }
 
-    // HTTP 메서드가 POST일때 전달받는 URL과 동일하면 메서드로 매핑
+    // 소망 추가 API
     @PostMapping("/api/wishes")
     // @RequestBody로 요청 본문 값 매핑
-    public ResponseEntity<Wish> addWish(@RequestBody AddWishRequest request) {
-        Wish saveWish = lanternService.save(request);
+    public ResponseEntity<Wish> addWish(@RequestBody AddWishRequest request, Authentication authentication) {
+        String userName = authentication.getName();
+
+        Wish wish = lanternService.save(request, userName);
 
         // 요청한 자원이 성공적으로 생성되었으며 저장된 블로그 글 정보를 응답 객체에 담아 전송
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(saveWish);
+                .body(wish);
     }
 
-    // HTTP 메서드가 GET일때 전달받는 URL과 동일하면 메서드로 매핑
+    // 모든 소망 조회 API (내용만 반환됨)
     @GetMapping("/api/wishes")
     public ResponseEntity<List<WishResponse>> findAllWishes() {
         List<WishResponse> wishes = lanternService.findAll()
@@ -53,7 +56,7 @@ public class LanternApiController {
                 .body(wishes);
     }
 
-    // HTTP 메서드가 GET일때 전달받는 URL과 동일하면 메서드로 매핑
+    // 소망 ID를 통해 조회
     @GetMapping("/api/wishes/{id}")
     // URL 경로에서 값 추출
     public ResponseEntity<WishResponse> findWish(@PathVariable long id) {
