@@ -20,7 +20,7 @@ public class LanternApiController {
 
     // HTTP 메서드가 POST일때 전달받는 URL과 동일하면 메서드로 매핑
     @PostMapping("/api/wishes")
-    // @RequestBody로 요청 본문 값 매피
+    // @RequestBody로 요청 본문 값 매핑
     public ResponseEntity<Wish> addWish(@RequestBody AddWishRequest request) {
         Wish saveWish = lanternService.save(request);
 
