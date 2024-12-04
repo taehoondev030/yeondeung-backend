@@ -18,6 +18,18 @@ public class LanternApiController {
 
     private final LanternService lanternService;
 
+    // 유저별 소망 조회 API
+    @GetMapping("/wishes")
+    public ResponseEntity<List<Wish>> getUserWishes(@RequestHeader("Authorization") String authorizationHeader) {
+        // Authorization 헤더에서 Bearer 토큰을 추출
+        String accessToken = authorizationHeader.substring(7);  // "Bearer " 제거
+
+        // JWT 토큰을 통해 사용자의 wish 데이터만 가져옴
+        List<Wish> wishes = lanternService.getWish(accessToken);
+
+        return ResponseEntity.ok(wishes);
+    }
+
     // HTTP 메서드가 POST일때 전달받는 URL과 동일하면 메서드로 매핑
     @PostMapping("/api/wishes")
     // @RequestBody로 요청 본문 값 매핑

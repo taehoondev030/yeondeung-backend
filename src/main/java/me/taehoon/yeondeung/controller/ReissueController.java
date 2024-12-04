@@ -76,7 +76,7 @@ public class ReissueController {
         String role = jwtUtil.getRole(refresh);
 
         //make new JWT
-        String newAccess = jwtUtil.createJwt("access", username, role, 600000L);
+        String newAccess = jwtUtil.createJwt("Authorization", username, role, 600000L);
         String newRefresh = jwtUtil.createJwt("refresh", username, role, 86400000L);
 
         //Refresh 토큰 저장 DB에 기존의 Refresh 토큰 삭제 후 새 Refresh 토큰 저장
@@ -84,7 +84,7 @@ public class ReissueController {
         addRefreshEntity(username, newRefresh, 86400000L);
 
         //response
-        response.setHeader("access", newAccess);
+        response.setHeader("Authorization", newAccess);
         response.addCookie(createCookie("refresh", newRefresh));
 
         return new ResponseEntity<>(HttpStatus.OK);

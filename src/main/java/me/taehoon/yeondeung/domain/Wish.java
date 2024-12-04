@@ -19,12 +19,20 @@ public class Wish {
     @Column(name = "content", nullable = false) // 'content'라는 not null 컬럼과 매핑
     private  String content;
 
-    @Builder // 빌더 패턴으로 객체 생성
-    public Wish(String content) {
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
+
+    @Builder
+    public Wish(String content, UserEntity user) {
         this.content = content;
+        this.user = user;  // user를 builder로 설정할 수 있도록 추가
     }
+
 
     public void update(String content) {
         this.content = content;
     }
+
+
 }

@@ -93,7 +93,6 @@ public class SecurityConfig {
                         .requestMatchers("/reissue").permitAll()
                         .requestMatchers("/check").permitAll()
                         .requestMatchers("/signup").permitAll()
-                        .requestMatchers("/api/wishes").permitAll()
                         .anyRequest().authenticated());
 
         http
